@@ -4,30 +4,42 @@ from .models import Vendor
 from accounts.models import User, UserProfile
 from accounts.forms import UserForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 
+# Checking the access for the user
+def check_role_vendor(user):
+    if user.role == 1:
+        return True
+    else:
+      raise PermissionDenied
 
-# Create your views here.
+@login_required(login_url = 'login')
 def registerVendor(request):
+    if request.user.is_authenticated:
+        messages.warning(request, "You are already logged in ")
+        return redirect('MyAccount')
     if request.method == 'POST':
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
         if form.is_valid() and v_form.is_valid():
-            # CREATED USER USING THE CLASS METHOD
-            first_name  = form.cleaned_data['first_name']
-            last_name  = form.cleaned_data['last_name']
-            email  = form.cleaned_data['email']
+            
+            # CREATED User USING THE CLASS METHOD
             password = form.cleaned_data['password']
-            username = form.cleaned_data['username']
-            user = User.objects.create(username= username, first_name = first_name, last_name = last_name, email = email, password = password)
+            user = form.save(commit = False)
+            user.set_password(password)
             user.role = User.RESTAURANT
+            print(user.role)
             user.save()
+        
             vendor = v_form.save(commit=False)
             vendor.user = user 
             user_profile = UserProfile.objects.get(user=user)
             vendor.user_profile = user_profile
             vendor.save()
+            
             messages.success(request, "Your accounts has been registered sucessfully! Please wait for the approval.")
-            return redirect('registerVendor') 
+            return redirect('login') 
         else:
             print(form.errors)
             
@@ -39,3 +51,8 @@ def registerVendor(request):
         'v_form' : v_form
     }
     return render(request, 'vendor/registerVendor.html', context)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor) 
+def vendorDashboard(request):
+    return render(request, 'vendor/vendorDashboard.html')

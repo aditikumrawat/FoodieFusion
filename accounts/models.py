@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-
 # Create your models here.
 class UserManager(BaseUserManager):
     
@@ -77,6 +76,13 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_labels):
         return True    
+    
+    def get_role(self):
+        if self.role == 1:
+            user_role = 'Restaurant'
+        elif self.role == 2:
+            user_role = 'Customer'
+        return user_role
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null = True)
