@@ -4,6 +4,7 @@ from .models import Vendor
 from accounts.models import User, UserProfile
 from accounts.forms import UserForm
 from django.contrib import messages
+from accounts.util import send_verification_email
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 
@@ -14,12 +15,11 @@ def check_role_vendor(user):
     else:
       raise PermissionDenied
 
-@login_required(login_url = 'login')
 def registerVendor(request):
     if request.user.is_authenticated:
         messages.warning(request, "You are already logged in ")
         return redirect('MyAccount')
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
         if form.is_valid() and v_form.is_valid():
@@ -38,11 +38,14 @@ def registerVendor(request):
             vendor.user_profile = user_profile
             vendor.save()
             
+            mail_sub = "Please activate your account"
+            email_template = 'accounts/emails/account_verification_email.html'
+            send_verification_email(request, user, mail_sub, email_template)
             messages.success(request, "Your accounts has been registered sucessfully! Please wait for the approval.")
-            return redirect('login') 
+            return redirect('registerVendor') 
         else:
             print(form.errors)
-            
+            return redirect('registerVendor') 
     else:
         form = UserForm()
         v_form = VendorForm()
