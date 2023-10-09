@@ -4,6 +4,13 @@
     80% {bottom:  100px}
     100% {bottom: -100% }
 }
+
+.btn.btn-info{
+    padding: 2px 1.75em ;
+    font-size: 12px ;
+    cursor: pointer;
+}
+
 .show-notification{
     position: fixed;
     bottom: 100px;
@@ -13,3 +20,4 @@
     z-index: 99;
 
 }
+

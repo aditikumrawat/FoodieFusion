@@ -19,7 +19,8 @@
                 Together We Satisfy – Partner with FoodieFusion!
               </h4>
               <p class="text-center">
-                Register your restaurant with FoodieFusion marketplace and get more customers.
+                Register your restaurant with FoodieFusion marketplace and get
+                more customers.
               </p>
               <hr />
               <div id="restaurant-sets-holder">
@@ -44,6 +45,9 @@
                                 >
                                   <div class="field-holder">
                                     <label>First name</label>{{form.first_name}}
+                                    <label class="text-danger">
+                                      {{form.first_name.errors}}</label
+                                    >
                                   </div>
                                 </div>
                                 <div
@@ -51,20 +55,31 @@
                                 >
                                   <div class="field-holder">
                                     <label>Last name</label>{{form.last_name}}
+                                    <label class="text-danger">
+                                      {{form.last_name.errors}}</label
+                                    >
                                   </div>
                                 </div>
                                 <div
                                   class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
                                 >
                                   <div class="field-holder">
-                                    <label>Restaurant name</label>{{v_form.vendor_name}}
+                                    <label>Restaurant name</label
+                                    >{{v_form.vendor_name}}
+                                    <label class="text-danger">
+                                      {{v_form.vendor_name.errors}}</label
+                                    >
                                   </div>
                                 </div>
                                 <div
                                   class="col-lg-6 col-md-6 col-sm-6 col-xs-12"
                                 >
                                   <div class="field-holder">
-                                    <label>Restaurant License </label>{{v_form.vendor_license}}
+                                    <label>Restaurant License </label
+                                    >{{v_form.vendor_license}}
+                                    <label class="text-danger">
+                                      {{v_form.vendor_license.errors}}</label
+                                    >
                                   </div>
                                 </div>
 
@@ -73,6 +88,9 @@
                                 >
                                   <div class="field-holder">
                                     <label>Email Address</label>{{form.email}}
+                                    <label class="text-danger">
+                                      {{form.email.errors}}</label
+                                    >
                                   </div>
                                 </div>
                                 <div
@@ -80,6 +98,9 @@
                                 >
                                   <div class="field-holder">
                                     <label>Username</label>{{form.username}}
+                                    <label class="text-danger">
+                                      {{form.username.errors}}</label
+                                    >
                                   </div>
                                 </div>
                               </li>
@@ -91,6 +112,9 @@
                                   <div class="field-holder">
                                     <label>Password</label>
                                     {{form.password}}
+                                    <label class="text-danger">
+                                      {{form.non_field_errors}}</label
+                                    >
                                   </div>
                                 </div>
                                 <div
@@ -108,16 +132,6 @@
                       </div>
                     </li>
                     <li>
-                      <ul class="errorlist">
-                        {% for field in form %} 
-                          {% if field.errors %} 
-                            {% for error in field.errors %}
-                              <li style="color: red">{{error}}</li>
-                            {% endfor %} 
-                          {% endif %} 
-                        {% endfor %}
-                        <li style="color: red;">{{form.non_field_errors}}</li>
-                      </ul>
                       <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <div class="field-holder">

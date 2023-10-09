@@ -81,7 +81,6 @@ def registerVendor(request):
             messages.success(request, "Your accounts has been registered sucessfully! Please wait for the approval.")
             return redirect('registerVendor') 
         else:
-            print(form.errors)
             return redirect('registerVendor') 
     else:
         form = UserForm()
@@ -91,6 +90,8 @@ def registerVendor(request):
         'v_form' : v_form
     }
     return render(request, 'vendor/registerVendor.html', context)
+
+
 
 @login_required(login_url='login')
 @user_passes_test(check_role_vendor) 
